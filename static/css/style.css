@@ -1,0 +1,466 @@
+:root {
+    --bg-primary: #101010;
+    --bg-secondary: #1a1a1a;
+    --accent-gold: #C9A864;
+    --text-primary: #EAEAEA;
+    --text-secondary: rgba(234, 234, 234, 0.7);
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Inter', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); overflow-x: hidden; }
+.container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 50px; }
+.preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-primary); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.preloader-logo { font-family: var(--font-heading); font-size: 5rem; color: var(--accent-gold); font-weight: 700; }
+.header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+.logo { font-family: var(--font-heading); font-size: 2.5rem; color: var(--text-primary); text-decoration: none; font-weight: 700; }
+.nav-link { margin: 0 25px; color: var(--text-primary); text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; font-size: 1.1rem; }
+.nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background-color: var(--accent-gold); transition: width 0.4s ease; }
+.nav-link:hover::after { width: 100%; }
+.btn { display: inline-block; padding: 14px 32px; background-color: var(--accent-gold); border: 1px solid var(--accent-gold); color: var(--bg-primary); text-decoration: none; font-weight: bold; border-radius: 5px; transition: background-color 0.3s, color 0.3s, transform 0.3s; cursor: pointer; }
+.btn:hover { background-color: var(--accent-gold); color: var(--bg-primary); transform: translateY(-3px) scale(1.05); }
+.hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+#canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+.hero-content { text-align: center; }
+.hero-title { font-family: var(--font-heading); font-size: 18vw; line-height: 0.9; color: var(--accent-gold); font-weight: 700; }
+
+.hero-subtitle {
+    font-size: 1.5vw;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-top: 1.5rem;
+    /* Применяем новую анимацию для задержки и исчезновения */
+    animation: fadeOutAfterDelay 4s ease-in-out 1.5s forwards;
+}
+
+/* Новая анимация только для исчезновения */
+@keyframes fadeOutAfterDelay {
+    0% {
+        opacity: 1; /* Анимация начинается, когда JS уже сделал текст видимым */
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1; /* 50% времени (2 секунды) текст остается на месте */
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0; /* Оставшиеся 50% (2 секунды) текст плавно исчезает */
+        transform: translateY(-20px);
+    }
+}
+
+.hero-title, .hero-subtitle { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+.hero-title .char, .hero-subtitle .char { display: inline-block; transform: translateY(110%); }
+
+.scroll-down-indicator { position: absolute; bottom: 40px; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 2px; writing-mode: vertical-lr; text-orientation: mixed; display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; }
+.scroll-down-indicator .line { width: 1px; height: 50px; background-color: var(--text-secondary); }
+section { padding: 140px 0; }
+.section-title { font-family: var(--font-heading); font-size: 5rem; text-align: left; margin-bottom: 60px; color: var(--accent-gold); font-weight: 700; line-height: 1.1; }
+.about-section { display: flex; align-items: center; gap: 5%; background: var(--bg-secondary); padding: 140px 100px; }
+.about-image-wrapper { flex: 0 0 45%; }
+.about-image-wrapper img { width: 100%; height: auto; border-radius: 8px; }
+.about-text-wrapper { flex: 1; }
+.about-text-wrapper .section-title { text-align: left; }
+.about-text-wrapper p { font-size: 1.2rem; line-height: 1.8; margin-bottom: 25px; color: var(--text-secondary); max-width: 40ch; }
+.booking-section { background-color: var(--bg-secondary); }
+.booking-section .section-title { text-align: center; }
+.booking-flow { display: flex; flex-direction: column; gap: 60px; max-width: 900px; margin: 0 auto; }
+.booking-step h3 { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #333; }
+.service-selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.service-select-btn { background-color: var(--bg-primary); border: 1px solid #444; color: var(--text-primary); padding: 20px; border-radius: 8px; text-align: left; font-family: var(--font-body); font-size: 1.1rem; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+.service-select-btn:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
+.service-select-btn.selected { background-color: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); font-weight: bold; }
+.service-select-btn .price { font-family: var(--font-heading); font-weight: 700; }
+.time-slots-container { display: flex; flex-direction: column; gap: 40px; }
+.day-group h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-secondary); text-transform: capitalize; }
+.time-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
+.time-slot-btn { background: var(--bg-primary); border: 1px solid #444; padding: 15px; border-radius: 5px; color: var(--text-primary); font-weight: 500; transition: all 0.2s ease; }
+.time-slot-btn:not(:disabled):hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+.time-slot-btn.selected { background: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); font-weight: bold; }
+.time-slot-btn.taken, .time-slot-btn.past { background: #2a2a2a; color: #555; border-color: #333; text-decoration: line-through; cursor: not-allowed; }
+#booking-form { display: flex; flex-direction: column; gap: 25px; text-align: left; }
+.form-group { display: flex; flex-direction: column; }
+.form-group label { margin-bottom: 10px; font-weight: 500; color: var(--text-secondary); }
+#booking-form input, #cancel-form input { padding: 18px; background: var(--bg-primary); border: 1px solid #444; color: var(--text-primary); font-size: 1rem; font-family: var(--font-body); transition: border-color 0.3s; border-radius: 5px; }
+#booking-form input:focus, #cancel-form input:focus { outline: none; border-color: var(--accent-gold); }
+#booking-form button { margin-top: 20px; align-self: flex-start; }
+.cancellation-section { margin-top: 100px; padding-top: 50px; border-top: 1px solid #333; text-align: center; }
+.cancellation-section h4 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 15px; }
+.cancellation-section p { max-width: 60ch; margin: 0 auto 30px; color: var(--text-secondary); line-height: 1.6; }
+#cancel-form { display: flex; justify-content: center; gap: 15px; max-width: 500px; margin: 0 auto; }
+#cancel-form input { flex-grow: 1; padding: 15px; }
+.btn-secondary { background: transparent; border-color: #888; color: #888; }
+.btn-secondary:hover { background: #888; color: var(--bg-primary); border-color: #888; }
+.form-message { margin-top: 20px; font-weight: bold; min-height: 24px; transition: color 0.3s; }
+.success { color: #28a745; } .error { color: #dc3545; }
+.contacts-section { padding-bottom: 0; }
+.contacts-content { display: grid; grid-template-columns: 40% 60%; }
+.contacts-info { padding: 40px; background-color: var(--bg-secondary); }
+.contacts-info .section-title { text-align: left; }
+.info-block { display: flex; align-items: flex-start; gap: 25px; margin-bottom: 40px; }
+.info-block i { font-size: 1.8rem; color: var(--accent-gold); margin-top: 5px; }
+.info-block h4 { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; margin-bottom: 5px; }
+.info-block p { color: var(--text-secondary); font-size: 1.1rem; }
+.contacts-map { min-height: 600px; }
+.contacts-map iframe { border: none; filter: grayscale(1) invert(0.9); width: 100%; height: 100%; }
+.footer { padding: 40px 50px; text-align: center; background-color: var(--bg-secondary); color: var(--text-secondary); }
+@media (max-width: 1200px) { .about-section { flex-direction: column; } .about-text-wrapper p { max-width: none; } .contacts-content { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .container, .header { padding: 0 20px; } .header { padding-top: 20px; } .nav { display: none; } .hero-title { font-size: 25vw; } .hero-subtitle { font-size: 3vw; } .section-title { font-size: 3rem; } .about-section, .contacts-info, .booking-flow { padding: 80px 20px; } }
+.services-showcase {
+    background-color: var(--bg-primary);
+}
+.services-showcase .section-title {
+    text-align: center;
+    margin-bottom: 100px;
+}
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 120px; /* Большое расстояние между блоками */
+}
+.service-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 80px;
+}
+/* Чередуем порядок для "зигзаг" эффекта */
+.service-item:nth-child(even) {
+    direction: rtl; /* Меняет порядок дочерних элементов */
+}
+.service-item:nth-child(even) .service-item-text {
+    direction: ltr; /* Возвращаем нормальное направление текста */
+}
+
+.service-item-image {
+    width: 100%;
+    height: 600px; /* Фиксированная высота для единообразия */
+    overflow: hidden;
+    border-radius: 8px;
+}
+.service-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Изображение будет заполнять блок без искажений */
+    transition: transform 0.6s ease;
+}
+.service-item:hover .service-item-image img {
+    transform: scale(1.05); /* Легкий зум при наведении */
+}
+
+.service-item-text {
+    position: relative;
+    padding-left: 50px;
+}
+/* Декоративная линия */
+.service-item-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background-color: var(--accent-gold);
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.service-item:hover .service-item-text::before {
+    transform: scaleY(1);
+}
+.service-item:nth-child(even) .service-item-text {
+    padding-left: 0;
+    padding-right: 50px;
+}
+.service-item:nth-child(even) .service-item-text::before {
+    left: auto;
+    right: 0;
+}
+
+.service-item-text .service-price {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    display: block;
+    margin-bottom: 20px;
+}
+.service-item-text h3 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+.service-item-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 45ch;
+}
+/* ======================================= */
+
+/* ... (остальные стили, booking-section и т.д.) ... */
+
+/* Адаптивность для новой секции */
+@media (max-width: 992px) {
+    .service-item, .service-item:nth-child(even) {
+        grid-template-columns: 1fr;
+        direction: ltr; /* Сбрасываем зигзаг */
+    }
+    .service-item-image {
+        height: 400px;
+    }
+    .service-item-text, .service-item:nth-child(even) .service-item-text {
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+    }
+    .service-item-text::before {
+        display: none; /* Прячем линию на мобильных */
+    }
+    .service-item-text p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+/* ... (все предыдущие стили) ... */
+
+/* === СТИЛИ ДЛЯ НОВОГО ФУТЕРА === */
+.new-footer {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 80px 50px 0; /* Убираем нижний паддинг, он будет у footer-bottom */
+    border-top: 1px solid #222;
+}
+
+.footer-content {
+    display: grid;
+    /* Создаем 3 колонки, которые будут адаптироваться */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 60px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+.footer-column h4 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+}
+
+/* Колонка с логотипом */
+.footer-about .logo {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+.footer-about p {
+    line-height: 1.7;
+    max-width: 35ch;
+}
+
+/* Колонка с ссылками */
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-links ul li {
+    margin-bottom: 15px;
+}
+.footer-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+.footer-links a:hover {
+    color: var(--accent-gold);
+    padding-left: 5px;
+}
+
+/* Колонка с контактами */
+.footer-contact p {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+.footer-contact p i {
+    color: var(--accent-gold);
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+.social-icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid #444;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.social-icons a:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* Нижняя полоса с копирайтом */
+.footer-bottom {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+    border-top: 1px solid #222;
+}
+
+/* Прячем старый футер на всякий случай */
+footer.footer {
+    display: none;
+}
+/* ================================ */
+
+
+/* ... (медиа-запросы @media) ... */
+/* === СТИЛИ ДЛЯ АДМИН-ПАНЕЛИ === */
+.admin-body {
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 20px;
+    min-height: 100vh;
+}
+/* Стили для страницы входа */
+.login-container {
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+.login-container .logo {
+    margin-bottom: 10px;
+}
+.login-container h2 {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+.login-container .form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.login-container input {
+    width: 100%;
+    padding: 15px;
+}
+.login-container .btn {
+    width: 100%;
+}
+
+/* Стили для дашборда */
+.admin-dashboard {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: 8px;
+}
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+.admin-header span {
+    color: var(--text-secondary);
+    margin-left: 10px;
+}
+.admin-dashboard h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--text-primary);
+}
+.admin-dashboard p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+.admin-dashboard h3 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--accent-gold);
+}
+.table-container {
+    overflow-x: auto; /* Для мобильных устройств */
+}
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.booking-table th, .booking-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+.booking-table th {
+    color: var(--accent-gold);
+    font-family: var(--font-body);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+.booking-table td {
+    color: var(--text-primary);
+}
+.btn-cancel {
+    background-color: #5a1d1d;
+    border-color: #8c2e2e;
+    color: #ffdddd;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+.btn-cancel:hover {
+    background-color: #8c2e2e;
+}
+.no-bookings {
+    font-style: italic;
+    color: var(--text-secondary);
+    padding: 20px;
+}
+
+
+
+/* Сообщения */
+.flash-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.flash-message.error {
+    background-color: #5a1d1d;
+    color: #ffdddd;
+}
+.flash-message.success {
+    background-color: #1d5a3a;
+    color: #ddffdd;
+}

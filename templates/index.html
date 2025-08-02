@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lord Barbershop - Дербент</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="preloader">
+        <div class="preloader-logo">LORD</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <a href="#" class="logo">LORD</a>
+            <nav class="nav">
+                <a href="#about" class="nav-link">О нас</a>
+				<a href="#services-showcase" class="nav-link">Наши услуги</a>
+                <a href="#booking" class="nav-link">Запись</a>
+                <a href="#contacts" class="nav-link">Контакты</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div id="canvas-container"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">LORD</h1>
+                    <p class="hero-subtitle">TRUE MEN'S STYLE</p>
+                </div>
+                <div class="scroll-down-indicator">
+                    <span>SCROLL</span>
+                    <div class="line"></div>
+                </div>
+            </section>
+
+            <section id="about" class="about-section">
+                <div class="about-image-wrapper">
+<img src="{{ url_for('static', filename='img/barber.jpg') }}" alt="Интерьер барбершопа Lord">
+                </div>
+                <div class="about-text-wrapper">
+                    <h2 class="section-title">Наша История</h2>
+                    <p>В сердце древнего Дербента, где стены цитадели Нарын-Кала хранят вековые тайны, а Каспийское море нашептывает легенды, родился барбершоп "Lord".</p>
+                    <p>Мы не просто стрижем — мы продолжаем традиции мужского достоинства и стиля, которые всегда были присущи этому городу воинов, поэтов и правителей. "Lord" — это место силы, где современное мастерство встречается с вечной классикой. Добро пожаловать в клуб.</p>
+                </div>
+            </section>
+			
+			
+			
+			<section id="services-showcase" class="services-showcase">
+                <h2 class="section-title">Наши Услуги</h2>
+                <div class="services-list">
+                    <!-- Услуга 1 -->
+                    <div class="service-item">
+                        <div class="service-item-image">
+                            <img src="{{ url_for('static', filename='img/muj.jpg') }}" alt="Мужская стрижка">
+                        </div>
+                        <div class="service-item-text">
+                            <span class="service-price">1500₽</span>
+                            <h3>Мужская стрижка</h3>
+                            <p>Классика или модерн — наши мастера подберут идеальную форму, которая подчеркнет ваш стиль и будет легко укладываться каждый день.</p>
+                        </div>
+                    </div>
+                    <!-- Услуга 2 -->
+                    <div class="service-item">
+                        <div class="service-item-image">
+                            <img src="{{ url_for('static', filename='img/korol.jpg') }}" alt="Королевское бритье">
+                        </div>
+                        <div class="service-item-text">
+                            <span class="service-price">2000₽</span>
+                            <h3>Королевское бритье</h3>
+                            <p>Ритуал для истинных джентльменов. Мы используем опасную бритву, горячие полотенца и премиальную косметику для идеально гладкой кожи без раздражения.</p>
+                        </div>
+                    </div>
+                    <!-- Услуга 3 -->
+                    <div class="service-item">
+                        <div class="service-item-image">
+                            <img src="{{ url_for('static', filename='img/model.jpg') }}" alt="Моделирование бороды">
+                        </div>
+                        <div class="service-item-text">
+                            <span class="service-price">1200₽</span>
+                            <h3>Моделирование бороды</h3>
+                            <p>Придаем вашей бороде идеальную форму, четкие контуры и ухоженный вид. Завершаем процедуру питательными маслами и бальзамами.</p>
+                        </div>
+                    </div>
+                    <!-- Услуга 4 -->
+                    <div class="service-item">
+                        <div class="service-item-image">
+                            <img src="{{ url_for('static', filename='img/strij.jpg') }}" alt="Стрижка + Борода">
+                        </div>
+                        <div class="service-item-text">
+                            <span class="service-price">2500₽</span>
+                            <h3>Стрижка + Борода</h3>
+                            <p>Комплексный подход к вашему образу. Мы создадим гармоничное сочетание стрижки и формы бороды, используя лучшие техники и уходовые средства.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+			
+            
+            <section id="booking" class="booking-section">
+                <h2 class="section-title">Онлайн-запись</h2>
+                <div class="booking-flow">
+                    <!-- Шаг 1: Выбор услуги -->
+                    <div class="booking-step">
+                        <h3>1. Выберите услугу</h3>
+                        <div class="service-selection-grid">
+                            {% for service in services %}
+                            <button class="service-select-btn" data-service-name="{{ service.name }}">
+                                <span>{{ service.name }}</span>
+                                <span class="price">{{ service.price }}</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Шаг 2: Выбор времени -->
+                    <div class="booking-step">
+                        <h3>2. Выберите дату и время</h3>
+                        <div class="time-slots-container">
+                            {% for day_str, slots in available_slots.items() %}
+                            <div class="day-group">
+                                <h4>{{ day_str }}</h4>
+                                <div class="time-slots-grid">
+                                    {% for slot in slots %}
+                                    <button class="time-slot-btn {{ slot.status }}" 
+                                            data-datetime-iso="{{ slot.datetime_iso }}"
+                                            {% if slot.status != 'available' %}disabled{% endif %}>
+                                        {{ slot.time }}
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Шаг 3: Ваши данные -->
+                    <div class="booking-step">
+                        <h3>3. Ваши данные</h3>
+                        <form id="booking-form">
+                            <input type="hidden" id="service-input" name="service">
+                            <input type="hidden" id="booking-datetime-input" name="booking_datetime">
+                            
+                            <div class="form-group">
+                                <label for="name">Ваше имя:</label>
+                                <input type="text" id="name" name="name" placeholder="Иван Петров" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Ваш телефон:</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+                            </div>
+                            <button type="submit" class="btn">Записаться</button>
+                        </form>
+                        <div id="form-message" class="form-message"></div>
+                    </div>
+                </div>
+
+                <!-- Секция отмены записи -->
+                <div class="cancellation-section">
+                    <h4>Нужно отменить запись?</h4>
+                    <p>Введите номер телефона, который вы использовали при бронировании. Мы отменим вашу ближайшую предстоящую запись.</p>
+                    <form id="cancel-form">
+                        <input type="tel" id="cancel-phone" name="phone" placeholder="Ваш номер телефона" required>
+                        <button type="submit" class="btn btn-secondary">Отменить запись</button>
+                    </form>
+                    <div id="cancel-form-message" class="form-message"></div>
+                </div>
+            </section>
+
+            <section id="contacts" class="contacts-section">
+                <div class="contacts-content">
+                    <div class="contacts-info">
+                        <h2 class="section-title">Контакты</h2>
+                        <div class="info-block">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div><h4>Наш Адрес</h4><p>Россия, г. Дербент, ул. Буйнакского, 25</p></div>
+                        </div>
+                        <div class="info-block">
+                            <i class="fa-solid fa-phone"></i>
+                            <div><h4>Телефон для записи</h4><p>+7 (988) 123-45-67</p></div>
+                        </div>
+                        <div class="info-block">
+                            <i class="fa-solid fa-clock"></i>
+                            <div><h4>Часы работы</h4><p>Ежедневно, с 10:00 до 22:00</p></div>
+                        </div>
+                    </div>
+                    <div class="contacts-map">
+                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A33e1a748347d4cf48f830a6722d73357a7d4576359f71c463f6a8e8f8a159e4d&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- === НОВЫЙ, КРАСИВЫЙ ФУТЕР === -->
+        <footer class="new-footer">
+            <div class="footer-content">
+                <!-- Колонка 1: Логотип и слоган -->
+                <div class="footer-column footer-about">
+                    <h3 class="logo">LORD</h3>
+                    <p>Место, где стиль встречается с традициями. Ваш безупречный образ — наша работа.</p>
+                </div>
+
+                <!-- Колонка 2: Быстрая навигация -->
+                <div class="footer-column footer-links">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#services-showcase">Услуги</a></li>
+                        <li><a href="#booking">Онлайн-запись</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <!-- Колонка 3: Контакты и соцсети -->
+                <div class="footer-column footer-contact">
+                    <h4>Свяжитесь с нами</h4>
+                    <p><i class="fa-solid fa-location-dot"></i> г. Дербент, ул. Буйнакского, 25</p>
+                    <p><i class="fa-solid fa-phone"></i> +7 (988) 123-45-67</p>
+                    <div class="social-icons">
+                        <!-- Вставьте сюда ссылки на ваши соцсети -->
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" target="_blank" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" target="_blank" aria-label="VK"><i class="fa-brands fa-vk"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Lord Barbershop. Все права защищены.</p>
+            </div>
+        </footer>
+        <!-- ================================ -->
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+            "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
+            "split-type": "https://cdn.jsdelivr.net/npm/split-type@0.3.4/dist/index.js",
+            "lenis": "https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.mjs"
+        }
+    }
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" type="module"></script>
+</body>
+</html>

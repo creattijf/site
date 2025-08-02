@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Lord Barbershop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <div class="admin-dashboard">
+        <header class="admin-header">
+            <div>
+                <h1 class="logo">LORD</h1>
+                <span>Admin Panel</span>
+            </div>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Выйти</a>
+        </header>
+
+        <h2>Добро пожаловать, Владелец!</h2>
+        <p>Здесь отображаются все предстоящие записи, отсортированные по времени.</p>
+        
+        <!-- Сообщения об успехе/ошибке -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <p class="flash-message {{ category }}">{{ message }}</p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <h3>Активные записи:</h3>
+        <div class="table-container">
+            {% if bookings %}
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th>Имя</th>
+                        <th>Телефон</th>
+                        <th>Услуга</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.formatted_date }}</td>
+                        <td>{{ booking.formatted_time }}</td>
+                        <td>{{ booking.client_name }}</td>
+                        <td>{{ booking.client_phone }}</td>
+                        <td>{{ booking.service_name }}</td>
+                        <td>
+                            <form action="{{ url_for('admin_cancel', booking_id=booking.id) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите отменить эту запись?');">
+                                <button type="submit" class="btn btn-cancel">Отменить</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="no-bookings">Предстоящих записей нет.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
