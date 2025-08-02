@@ -464,3 +464,65 @@ footer.footer {
     background-color: #1d5a3a;
     color: #ddffdd;
 }
+
+/* === НОВЫЕ СТИЛИ И АДАПТИВНОСТЬ === */
+
+/* Адаптивность до 992px (планшеты) */
+@media (max-width: 992px) {
+    .about-section { flex-direction: column; }
+    .about-text-wrapper p { max-width: none; }
+    .contacts-content { grid-template-columns: 1fr; }
+    /* Адаптация секции услуг */
+    .service-item, .service-item:nth-child(even) {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 40px;
+    }
+    .service-item-image { height: 400px; }
+    .service-item-text, .service-item:nth-child(even) .service-item-text {
+        padding: 0;
+        text-align: center;
+    }
+    .service-item-text::before { display: none; }
+    .service-item-text p { margin-left: auto; margin-right: auto; }
+}
+
+/* Адаптивность до 768px (телефоны) */
+@media (max-width: 768px) {
+    .container, .header { padding: 0 20px; }
+    .header { padding-top: 20px; padding-bottom: 20px; }
+    .section-title { font-size: 3rem; }
+    .hero-title { font-size: 25vw; }
+    .hero-subtitle { font-size: 3.5vw; }
+    section { padding: 100px 0; }
+    .about-section, .contacts-info, .booking-flow { padding: 80px 20px; }
+
+    /* Показываем бургер и прячем обычную навигацию */
+    .burger-menu { display: flex; }
+    .nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 70%;
+        max-width: 300px;
+        background-color: var(--bg-secondary);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        padding: 20px;
+    }
+    .nav.nav-active {
+        transform: translateX(0);
+    }
+    .nav-link { font-size: 1.5rem; }
+
+    /* Адаптация секции услуг для телефонов */
+    .services-showcase .section-title { margin-bottom: 60px; }
+    .services-list { gap: 80px; }
+    .service-item-text h3 { font-size: 2.5rem; }
+    .service-item-image { height: 300px; }
+}

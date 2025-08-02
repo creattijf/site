@@ -181,3 +181,20 @@ document.addEventListener('DOMContentLoaded', () => {
         handleFormSubmit(cancelForm, '/cancel', cancelMessage);
     });
 });
+
+
+// === НОВЫЙ КОД ДЛЯ БУРГЕР-МЕНЮ ===
+    const burger = document.querySelector('.burger-menu');
+    const nav = document.querySelector('.nav');
+    const body = document.querySelector('body');
+
+    burger.addEventListener('click', () => {
+        // Переключаем класс на body для анимации бургера и показа/скрытия меню
+        body.classList.toggle('nav-active');
+    });
+    // Закрываем меню при клике на ссылку
+    nav.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            body.classList.remove('nav-active');
+        });
+    });
