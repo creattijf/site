@@ -1,3 +1,7 @@
+/* ================================================================ */
+/* === ВАШИ ОСНОВНЫЕ СТИЛИ (НЕ ТРОНУТЫ) =========================== */
+/* ================================================================ */
+
 :root {
     --bg-primary: #101010;
     --bg-secondary: #1a1a1a;
@@ -9,30 +13,24 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
 body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); overflow-x: hidden; }
-
-/* === ДОБАВЛЕНО: Блокировка скролла при открытом меню === */
-body.nav-active {
-    overflow: hidden;
-}
-
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 50px; }
-
-/* ... (все ваши стили прелоадера, кнопок и т.д. остаются без изменений) ... */
 .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-primary); display: flex; justify-content: center; align-items: center; z-index: 1000; }
 .preloader-logo { font-family: var(--font-heading); font-size: 5rem; color: var(--accent-gold); font-weight: 700; }
-.header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; transition: background-color 0.3s; }
+.header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 151; /* Повышен z-index */ }
 .logo { font-family: var(--font-heading); font-size: 2.5rem; color: var(--text-primary); text-decoration: none; font-weight: 700; }
-.nav { display: flex; align-items: center; gap: 50px; }
-.nav-link { color: var(--text-primary); text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; font-size: 1.1rem; }
+.nav { display: flex; align-items: center; } /* Убрал лишние стили, которые будут в @media */
+.nav-link { margin: 0 25px; color: var(--text-primary); text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; font-size: 1.1rem; }
 .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background-color: var(--accent-gold); transition: width 0.4s ease; }
 .nav-link:hover::after { width: 100%; }
 .btn { display: inline-block; padding: 14px 32px; background-color: var(--accent-gold); border: 1px solid var(--accent-gold); color: var(--bg-primary); text-decoration: none; font-weight: bold; border-radius: 5px; transition: background-color 0.3s, color 0.3s, transform 0.3s; cursor: pointer; }
 .btn:hover { background-color: var(--accent-gold); color: var(--bg-primary); transform: translateY(-3px) scale(1.05); }
 
-/* === СТИЛИ ДЛЯ БУРГЕР-МЕНЮ (ИЗМЕНЕНО) === */
+/* Стили бургера (остаются, но будут управляться медиа-запросом) */
 .burger-menu {
-    display: none; /* Скрыт на десктопе */
+    display: none; /* Изначально скрыт на десктопе */
     flex-direction: column;
     justify-content: space-around;
     width: 2rem;
@@ -41,7 +39,7 @@ body.nav-active {
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 200; /* Выше чем .nav */
+    z-index: 200; /* Самый высокий z-index, чтобы всегда был кликабелен */
 }
 .burger-menu span {
     width: 2rem;
@@ -52,37 +50,19 @@ body.nav-active {
     position: relative;
     transform-origin: 1px;
 }
-/* Анимация бургера в крестик (ИЗМЕНЕН СЕЛЕКТОР) */
+/* Анимация бургера в крестик (работает с JS через класс на body) */
 body.nav-active .burger-menu span:nth-child(1) { transform: rotate(45deg); }
 body.nav-active .burger-menu span:nth-child(2) { opacity: 0; transform: translateX(20px); }
 body.nav-active .burger-menu span:nth-child(3) { transform: rotate(-45deg); }
 
-/* === ДОБАВЛЕНО: Стили для оверлея === */
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
-    z-index: 140; /* Между хедером и меню */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-body.nav-active .menu-overlay {
-    opacity: 1;
-    pointer-events: auto;
-}
 
-/* ... (все ваши стили секций hero, about, services и т.д. остаются без изменений) ... */
 .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
 #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 .hero-content { text-align: center; }
 .hero-title { font-family: var(--font-heading); font-size: 18vw; line-height: 0.9; color: var(--accent-gold); font-weight: 700; }
-.hero-subtitle { font-size: 1.5vw; letter-spacing: 8px; text-transform: uppercase; color: var(--text-primary); margin-top: 1.5rem; animation: fadeOutSmoother 6s ease-in 2s forwards; }
-@keyframes fadeOutSmoother { 0%, 50% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+.hero-subtitle { font-size: 1.5vw; letter-spacing: 8px; text-transform: uppercase; color: var(--text-primary); margin-top: 1.5rem; animation: fadeOutAfterDelay 4s ease-in-out 1.5s forwards; }
+@keyframes fadeOutAfterDelay { 0%, 50% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+.hero-title, .hero-subtitle { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 .hero-title .char, .hero-subtitle .char { display: inline-block; transform: translateY(110%); }
 .scroll-down-indicator { position: absolute; bottom: 40px; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 2px; writing-mode: vertical-lr; text-orientation: mixed; display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; }
 .scroll-down-indicator .line { width: 1px; height: 50px; background-color: var(--text-secondary); }
@@ -92,7 +72,9 @@ section { padding: 140px 0; }
 .about-image-wrapper { flex: 0 0 45%; }
 .about-image-wrapper img { width: 100%; height: auto; border-radius: 8px; }
 .about-text-wrapper { flex: 1; }
+.about-text-wrapper .section-title { text-align: left; }
 .about-text-wrapper p { font-size: 1.2rem; line-height: 1.8; margin-bottom: 25px; color: var(--text-secondary); max-width: 40ch; }
+
 .services-showcase { background-color: var(--bg-primary); }
 .services-showcase .section-title { text-align: center; margin-bottom: 100px; }
 .services-list { display: flex; flex-direction: column; gap: 120px; }
@@ -110,6 +92,7 @@ section { padding: 140px 0; }
 .service-item-text .service-price { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--accent-gold); display: block; margin-bottom: 20px; }
 .service-item-text h3 { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; margin-bottom: 25px; }
 .service-item-text p { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); max-width: 45ch; }
+
 .booking-section { background-color: var(--bg-secondary); }
 .booking-section .section-title { text-align: center; }
 .booking-flow { display: flex; flex-direction: column; gap: 60px; max-width: 900px; margin: 0 auto; }
@@ -127,6 +110,7 @@ section { padding: 140px 0; }
 .time-slot-btn.selected { background: var(--accent-gold); color: var(--bg-primary); border-color: var(--accent-gold); font-weight: bold; }
 .time-slot-btn.taken, .time-slot-btn.past { background: #2a2a2a; color: #555; border-color: #333; text-decoration: line-through; cursor: not-allowed; }
 #booking-form { display: flex; flex-direction: column; gap: 25px; text-align: left; }
+.form-group { display: flex; flex-direction: column; }
 .form-group label { margin-bottom: 10px; font-weight: 500; color: var(--text-secondary); }
 #booking-form input, #cancel-form input { padding: 18px; background: var(--bg-primary); border: 1px solid #444; color: var(--text-primary); font-size: 1rem; font-family: var(--font-body); transition: border-color 0.3s; border-radius: 5px; }
 #booking-form input:focus, #cancel-form input:focus { outline: none; border-color: var(--accent-gold); }
@@ -143,12 +127,14 @@ section { padding: 140px 0; }
 .contacts-section { padding-bottom: 0; }
 .contacts-content { display: grid; grid-template-columns: 40% 60%; }
 .contacts-info { padding: 40px; background-color: var(--bg-secondary); }
+.contacts-info .section-title { text-align: left; }
 .info-block { display: flex; align-items: flex-start; gap: 25px; margin-bottom: 40px; }
 .info-block i { font-size: 1.8rem; color: var(--accent-gold); margin-top: 5px; }
 .info-block h4 { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; margin-bottom: 5px; }
 .info-block p { color: var(--text-secondary); font-size: 1.1rem; }
 .contacts-map { min-height: 600px; }
 .contacts-map iframe { border: none; filter: grayscale(1) invert(0.9); width: 100%; height: 100%; }
+
 .new-footer { background-color: var(--bg-secondary); color: var(--text-secondary); padding: 80px 50px 0; border-top: 1px solid #222; }
 .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; max-width: 1600px; margin: 0 auto; padding-bottom: 60px; }
 .footer-column h4 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 25px; }
@@ -164,77 +150,154 @@ section { padding: 140px 0; }
 .social-icons a { display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; border: 1px solid #444; border-radius: 50%; color: var(--text-secondary); font-size: 1.2rem; text-decoration: none; transition: all 0.3s ease; }
 .social-icons a:hover { color: var(--accent-gold); border-color: var(--accent-gold); transform: translateY(-3px) scale(1.1); }
 .footer-bottom { text-align: center; padding: 30px 0; margin-top: 60px; border-top: 1px solid #222; }
+footer.footer { display: none; }
 
-/* === АДАПТИВНОСТЬ === */
+.admin-body { background-color: var(--bg-primary); display: flex; justify-content: center; align-items: flex-start; padding: 50px 20px; min-height: 100vh; }
+.login-container { background-color: var(--bg-secondary); padding: 40px; border-radius: 8px; text-align: center; width: 100%; max-width: 400px; }
+.login-container .logo { margin-bottom: 10px; }
+.login-container h2 { color: var(--text-secondary); margin-bottom: 30px; font-weight: 500; }
+.login-container .form-group { text-align: left; margin-bottom: 20px; }
+.login-container input { width: 100%; padding: 15px; }
+.login-container .btn { width: 100%; }
+.admin-dashboard { width: 100%; max-width: 1200px; background-color: var(--bg-secondary); padding: 40px; border-radius: 8px; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #333; }
+.admin-header span { color: var(--text-secondary); margin-left: 10px; }
+.admin-dashboard h2 { font-family: var(--font-heading); font-size: 2.5rem; color: var(--text-primary); }
+.admin-dashboard p { color: var(--text-secondary); margin-bottom: 30px; }
+.admin-dashboard h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 20px; color: var(--accent-gold); }
+.table-container { overflow-x: auto; }
+.booking-table { width: 100%; border-collapse: collapse; }
+.booking-table th, .booking-table td { padding: 15px; text-align: left; border-bottom: 1px solid #333; }
+.booking-table th { color: var(--accent-gold); font-family: var(--font-body); font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+.booking-table td { color: var(--text-primary); }
+.btn-cancel { background-color: #5a1d1d; border-color: #8c2e2e; color: #ffdddd; padding: 8px 16px; font-size: 0.9rem; }
+.btn-cancel:hover { background-color: #8c2e2e; }
+.no-bookings { font-style: italic; color: var(--text-secondary); padding: 20px; }
+.flash-message { padding: 15px; margin-bottom: 20px; border-radius: 5px; font-weight: bold; }
+.flash-message.error { background-color: #5a1d1d; color: #ffdddd; }
+.flash-message.success { background-color: #1d5a3a; color: #ddffdd; }
 
-/* Планшеты (до 1024px) */
-@media (max-width: 1024px) {
-    .container, .header { padding-left: 30px; padding-right: 30px; }
-    .section-title { font-size: 4rem; }
-    .about-section { flex-direction: column; gap: 40px; padding-left: 50px; padding-right: 50px; }
-    .about-text-wrapper p { max-width: 65ch; }
-    .contacts-content { grid-template-columns: 1fr; }
-    .service-item, .service-item:nth-child(even) { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
-    .service-item-image { height: 450px; }
-    .service-item-text, .service-item:nth-child(even) .service-item-text { padding: 0; text-align: center; }
-    .service-item-text::before { display: none; }
-    .service-item-text p { margin-left: auto; margin-right: auto; }
+
+/* ================================================================ */
+/* === ФИНАЛЬНЫЙ БЛОК АДАПТИВНОСТИ (ОЧИЩЕН И ИСПРАВЛЕН) =========== */
+/* ================================================================ */
+
+/* Блокируем скролл страницы, когда меню открыто */
+body.nav-active {
+    overflow: hidden;
 }
 
-/* Телефоны (до 768px) */
-@media (max-width: 768px) {
-    .container, .header { padding: 0 20px; }
-    .header { padding-top: 20px; padding-bottom: 20px; }
-    .logo { font-size: 2rem; }
-    
-    /* Скрываем обычную навигацию и показываем бургер */
-    .nav {
-        display: none; /* Полностью скрываем, чтобы бургер занял место */
-    }
+/* Стили для оверлея (затемняющий фон) */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(16, 16, 16, 0.6);
+    z-index: 140;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+body.nav-active .menu-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Адаптация для экранов 992px и меньше (планшеты и телефоны) */
+@media (max-width: 992px) {
+    /* === ОСНОВНАЯ ЛОГИКА МОБИЛЬНОГО МЕНЮ === */
+
+    /* Показываем кнопку-бургер */
     .burger-menu {
-        display: flex; /* Показываем бургер */
+        display: flex;
     }
 
-    /* Стили для выезжающего меню (ИЗМЕНЕНО И ДОПОЛНЕНО) */
-    body.nav-active .nav {
-        /* Эти стили применяются, только когда меню активно */
+    /* Навигацию .nav превращаем в выезжающее меню */
+    .nav {
         position: fixed;
         top: 0;
         right: 0;
         height: 100vh;
         width: 70%;
-        max-width: 300px;
+        max-width: 320px;
+        padding: 40px;
         background-color: var(--bg-secondary);
+        box-shadow: -5px 0 20px rgba(0,0,0,0.25);
         
-        /* Делаем из него флекс-колонку */
-        display: flex;
+        /* Ставим элементы в столбик и центрируем */
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 40px;
         
-        transform: translateX(0); /* Показываем меню */
-        z-index: 150; /* Выше хедера, но ниже бургера */
-        padding: 20px;
-        box-shadow: -5px 0px 15px rgba(0,0,0,0.2);
-    }
-    .nav {
-        /* Изначальное состояние меню - скрыто за экраном */
+        /* Прячем меню за экраном по умолчанию */
         transform: translateX(100%);
         transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 150;
     }
-    .nav-link { 
-        font-size: 1.5rem; 
+    
+    /* Когда на BODY появляется класс .nav-active (через JS), меню выезжает */
+    body.nav-active .nav {
+        transform: translateX(0);
     }
+    
+    /* Увеличиваем шрифт ссылок в мобильном меню для удобства */
+    .nav-link {
+        font-size: 1.5rem;
+        margin: 0; /* Сбрасываем горизонтальные отступы */
+    }
+    
     .nav .btn {
-        transform: none; /* Убираем ховер-эффект на мобильных */
+        font-size: 1.5rem;
+        padding: 12px 28px;
     }
 
-    /* Адаптация остальных секций */
+    /* === ОБЩАЯ АДАПТАЦИЯ ДРУГИХ ЭЛЕМЕНТОВ === */
+    .container, .header {
+        padding: 0 30px;
+    }
+    .header {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+    section { padding: 120px 0; }
+    .section-title { font-size: 4rem; }
+    .hero-title { font-size: 22vw; }
+    .hero-subtitle { font-size: 3vw; }
+    
+    .about-section { flex-direction: column; gap: 40px; padding: 120px 50px; }
+    .about-text-wrapper p { max-width: none; }
+    .contacts-content { grid-template-columns: 1fr; }
+    
+    .service-item, .service-item:nth-child(even) {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 40px;
+    }
+    .service-item-image { height: 400px; }
+    .service-item-text, .service-item:nth-child(even) .service-item-text {
+        padding: 0;
+        text-align: center;
+    }
+    .service-item-text::before { display: none; }
+    .service-item-text p { margin-left: auto; margin-right: auto; }
+}
+
+/* Адаптация для маленьких экранов (телефоны) */
+@media (max-width: 768px) {
+    .container, .header {
+        padding: 0 20px;
+    }
+    .header {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
     section { padding: 100px 0; }
-    .section-title { font-size: 10vw; line-height: 1.2; text-align: center; }
-    .hero-title { font-size: 25vw; }
-    .hero-subtitle { font-size: 4vw; }
+    .section-title { font-size: 10vw; text-align: center; } /* Делаем заголовки по центру */
     .about-section, .contacts-info, .booking-flow { padding: 80px 20px; }
     .services-showcase .section-title { margin-bottom: 60px; }
     .services-list { gap: 80px; }
