@@ -76,19 +76,34 @@ def check_and_apply_abuse_rule(conn, ip):
         print(f"IP {ip} заблокирован до {cooldown_until.isoformat()} за подозрительную активность.")
 
 def generate_time_slots():
-    conn = get_db_connection(); booked_slots = {row['booking_datetime'] for row in conn.execute('SELECT booking_datetime FROM bookings').fetchall()}; conn.close()
-    available_slots = {}; today = datetime.now().date()
+    conn = get_db_connection()
+    booked_slots = {row['booking_datetime'] for row in conn.execute('SELECT booking_datetime FROM bookings').fetchall()}
+    conn.close()
+
+    available_slots = {}
+    today = (datetime.utcnow() + timedelta(hours=3)).date()  # МСК
     for i in range(2):
-        day = today + timedelta(days=i); day_str = day.strftime("%A, %d %B"); slots_for_day = []
-        current_slot_dt = datetime.combine(day, time(10,0))
-        while current_slot_dt.time() < time(22,0):
-            slot_iso = current_slot_dt.isoformat(); now = datetime.now(); status = 'available'
-            if current_slot_dt < now: status = 'past'
-            elif slot_iso in booked_slots: status = 'taken'
-            slots_for_day.append({'time': current_slot_dt.strftime("%H:%M"), 'datetime_iso': slot_iso, 'status': status})
+        day = today + timedelta(days=i)
+        day_str = day.strftime("%A, %d %B")
+        slots_for_day = []
+        current_slot_dt = datetime.combine(day, time(10, 0))
+        while current_slot_dt.time() < time(22, 0):
+            slot_iso = current_slot_dt.isoformat()
+            now = datetime.utcnow() + timedelta(hours=3)  # текущее время по МСК
+            status = 'available'
+            if current_slot_dt < now:
+                status = 'past'
+            elif slot_iso in booked_slots:
+                status = 'taken'
+            slots_for_day.append({
+                'time': current_slot_dt.strftime("%H:%M"),
+                'datetime_iso': slot_iso,
+                'status': status
+            })
             current_slot_dt += timedelta(minutes=30)
         available_slots[day_str] = slots_for_day
     return available_slots
+
 
 # --- ОБЫЧНЫЕ МАРШРУТЫ ---
 
