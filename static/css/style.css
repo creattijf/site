@@ -60,8 +60,17 @@ body.nav-active .burger-menu span:nth-child(3) { transform: rotate(-45deg); }
 #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 .hero-content { text-align: center; }
 .hero-title { font-family: var(--font-heading); font-size: 18vw; line-height: 0.9; color: var(--accent-gold); font-weight: 700; }
-.hero-subtitle { font-size: 1.5vw; letter-spacing: 8px; text-transform: uppercase; color: var(--text-primary); margin-top: 1.5rem; animation: fadeOutAfterDelay 4s ease-in-out 1.5s forwards; }
-@keyframes fadeOutAfterDelay { 0%, 50% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+.hero-subtitle { font-size: 1.5vw; letter-spacing: 8px; text-transform: uppercase; color: var(--text-primary); margin-top: 1.5rem; animation: smoothFadeOutUp 5s cubic-bezier(0.4, 0, 0.2, 1) 1.5s forwards; /* <-- ИЗМЕНЕНА АНИМАЦИЯ */ }
+@keyframes smoothFadeOutUp { /* <-- НОВАЯ, БОЛЕЕ ПЛАВНАЯ АНИМАЦИЯ */
+    0%, 60% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
 .hero-title, .hero-subtitle { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 .hero-title .char, .hero-subtitle .char { display: inline-block; transform: translateY(110%); }
 .scroll-down-indicator { position: absolute; bottom: 40px; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 2px; writing-mode: vertical-lr; text-orientation: mixed; display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; }
@@ -209,13 +218,7 @@ body.nav-active .menu-overlay {
 /* Адаптация для экранов 992px и меньше (планшеты и телефоны) */
 @media (max-width: 992px) {
     /* === ОСНОВНАЯ ЛОГИКА МОБИЛЬНОГО МЕНЮ === */
-
-    /* Показываем кнопку-бургер */
-    .burger-menu {
-        display: flex;
-    }
-
-    /* Навигацию .nav превращаем в выезжающее меню */
+    .burger-menu { display: flex; }
     .nav {
         position: fixed;
         top: 0;
@@ -226,44 +229,21 @@ body.nav-active .menu-overlay {
         padding: 40px;
         background-color: var(--bg-secondary);
         box-shadow: -5px 0 20px rgba(0,0,0,0.25);
-        
-        /* Ставим элементы в столбик и центрируем */
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 40px;
-        
-        /* Прячем меню за экраном по умолчанию */
         transform: translateX(100%);
         transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         z-index: 150;
     }
-    
-    /* Когда на BODY появляется класс .nav-active (через JS), меню выезжает */
-    body.nav-active .nav {
-        transform: translateX(0);
-    }
-    
-    /* Увеличиваем шрифт ссылок в мобильном меню для удобства */
-    .nav-link {
-        font-size: 1.5rem;
-        margin: 0; /* Сбрасываем горизонтальные отступы */
-    }
-    
-    .nav .btn {
-        font-size: 1.5rem;
-        padding: 12px 28px;
-    }
+    body.nav-active .nav { transform: translateX(0); }
+    .nav-link { font-size: 1.5rem; margin: 0; }
+    .nav .btn { font-size: 1.5rem; padding: 12px 28px; }
 
     /* === ОБЩАЯ АДАПТАЦИЯ ДРУГИХ ЭЛЕМЕНТОВ === */
-    .container, .header {
-        padding: 0 30px;
-    }
-    .header {
-        padding-top: 25px;
-        padding-bottom: 25px;
-    }
-
+    .container, .header { padding: 0 30px; }
+    .header { padding-top: 25px; padding-bottom: 25px; }
     section { padding: 120px 0; }
     .section-title { font-size: 4rem; }
     .hero-title { font-size: 22vw; }
@@ -271,6 +251,8 @@ body.nav-active .menu-overlay {
     
     .about-section { flex-direction: column; gap: 40px; padding: 120px 50px; }
     .about-text-wrapper p { max-width: none; }
+    
+    /* ИЗМЕНЕНИЕ: Контакты перестраиваются в один столбец */
     .contacts-content { grid-template-columns: 1fr; }
     
     .service-item, .service-item:nth-child(even) {
@@ -289,20 +271,22 @@ body.nav-active .menu-overlay {
 
 /* Адаптация для маленьких экранов (телефоны) */
 @media (max-width: 768px) {
-    .container, .header {
-        padding: 0 20px;
-    }
-    .header {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+    .container, .header { padding: 0 20px; }
+    .header { padding-top: 20px; padding-bottom: 20px; }
     section { padding: 100px 0; }
-    .section-title { font-size: 10vw; text-align: center; } /* Делаем заголовки по центру */
-    .about-section, .contacts-info, .booking-flow { padding: 80px 20px; }
+    .section-title { font-size: 10vw; text-align: center; }
+    
+    .about-section, .booking-flow { padding-left: 20px; padding-right: 20px; }
+    
+    /* ИЗМЕНЕНИЕ: Уменьшаем отступы для блока информации и высоту карты */
+    .contacts-info { padding: 80px 20px; }
+    .contacts-map { min-height: 400px; }
+    
     .services-showcase .section-title { margin-bottom: 60px; }
     .services-list { gap: 80px; }
     .service-item-text h3 { font-size: 2.5rem; }
     .service-item-image { height: 300px; }
+    
     .footer-content { grid-template-columns: 1fr; }
     .footer-column { text-align: center; }
     .social-icons { justify-content: center; }
